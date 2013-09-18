@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Volume Per Language";
+}
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#graph" data-toggle="tab">Graph</a></li>
+  <li><a href="#data" data-toggle="tab">Data Detail</a></li>  
+</ul>
+<div class="tab-content">  
+  <div class="tab-pane active" id="graph">@Html.Partial("VolumePerLanguageGraphPartial")</div>
+  <div class="tab-pane" id="data">@Html.Partial("VolumePerLanguageDataPartial")</div>  
+</div>

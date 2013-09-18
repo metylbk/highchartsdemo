@@ -1,0 +1,111 @@
+<script type="text/javascript">
+    $(function () {
+        resizeDiv();
+        window.onresize = function (event) {
+            resizeDiv();
+        }
+        function resizeDiv() {
+            $('#graphContainer').height($(window).height() - 170);
+        }
+
+        //var dataSource = @Html.Raw(Json.Encode(Model));
+        var dataSource = [
+            {
+                LanguageCode: "GERCHS",
+                VolumeRestLastLastYear: 1000,
+                VolumeRestLastYear: 2000,
+                VolumeYearToDateCurrentYear: 20000,
+                VolumeYearToDateLastLastYear: 39578,
+                VolumeYearToDateLastYear: 500
+            },
+            {
+                LanguageCode: "GERCZE",
+                VolumeRestLastLastYear: 10000,
+                VolumeRestLastYear: 9580,
+                VolumeYearToDateCurrentYear: 15000,
+                VolumeYearToDateLastLastYear: 500,
+                VolumeYearToDateLastYear: 34673
+            },
+            {
+                LanguageCode: "GERDAN",
+                VolumeRestLastLastYear: 2500,
+                VolumeRestLastYear: 15000,
+                VolumeYearToDateCurrentYear: 600,
+                VolumeYearToDateLastLastYear: 21884,
+                VolumeYearToDateLastYear: 10000
+            },
+            {
+                LanguageCode: "GERFRE",
+                VolumeRestLastLastYear: 100,
+                VolumeRestLastYear: 6048,
+                VolumeYearToDateCurrentYear: 15000,
+                VolumeYearToDateLastLastYear: 11985,
+                VolumeYearToDateLastYear: 2158
+            }];
+
+
+        var chart = $('#graphContainer').highcharts({
+
+            chart: {
+                type: 'column'
+            },
+            credits: {
+                text: 'Source: jonckers.com',
+                href: 'http://jonckers.com/'
+            },
+            title: {
+                text: 'Total volumes per language, grouped by year'
+            },
+
+            xAxis: {
+                categories: jQuery.map(dataSource, function (e) { return e.LanguageCode; })
+            },
+
+            yAxis: {
+                allowDecimals: false,
+                min: 0,
+                title: {
+                    text: 'Volume, words'
+                }
+            },
+
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.x + '</b><br/>' +
+                        this.series.name + ': ' + Highcharts.numberFormat(this.y, 0) + '<br/>' +
+                        'Total: ' + Highcharts.numberFormat(this.point.stackTotal, 0);
+                }
+            },
+
+            plotOptions: {
+                column: {
+                    stacking: 'normal'
+                }
+            },
+
+            series: [{
+                name: 'Jan 01 - YTD 2013',
+                data: jQuery.map(dataSource, function (e) { return e.VolumeYearToDateCurrentYear; }),
+                //dataSource.map(function (e) { return e.VolumeYearToDateCurrentYear; }),
+                stack: '2013'
+            }, {
+                name: 'Jan 01 - YTD 2012',
+                data: jQuery.map(dataSource, function (e) { return e.VolumeYearToDateLastYear; }),
+                stack: '2012'
+            }, {
+                name: 'YTD - Dec 31 2012',
+                data: jQuery.map(dataSource, function (e) { return e.VolumeRestLastYear; }),
+                stack: '2012'
+            }, {
+                name: 'Jan 01 - YTD 2011',
+                data: jQuery.map(dataSource, function (e) { return e.VolumeYearToDateLastLastYear; }),
+                stack: '2011'
+            }, {
+                name: 'YTD - Dec 31 2011',
+                data: jQuery.map(dataSource, function (e) { return e.VolumeRestLastLastYear; }),
+                stack: '2011'
+            }]
+        });
+    });
+</script>
+<div id="graphContainer" style="min-width: 400px; width: 100%; height: 100%;"></div>
